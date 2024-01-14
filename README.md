@@ -1,4 +1,4 @@
-# these are some examples using OpenMM Lab in Databricks
+# Using OpenMM Lab in Databricks samples
 
 OpenMMLab has a variety of different modules for various different computer vision tasks
 

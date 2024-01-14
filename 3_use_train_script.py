@@ -85,7 +85,7 @@ distributor = TorchDistributor(num_processes=num_processes,
                                 local_mode=local_status, use_gpu=True)
     
 logger.info(f"Launching job with TorchDistributor with {num_gpus_per_node} gpus per node and {num_nodes} nodes")
-completed_trainer = distributor.run('./scripts/train.py', f'config={config}', f'--work-dir=/local_disk0/openmmlab',
+completed_trainer = distributor.run('./scripts/train.py', config, f'--work-dir=/local_disk0/openmmlab',
                                     f'--db-host={db_host}', f'--db-token={db_token}', f'--data-root=/dbfs{data_path}')
 
 # COMMAND ----------
