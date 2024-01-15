@@ -122,6 +122,7 @@ train_cfg = dict(
 val_evaluator = dict(
     collect_device='gpu',
     ann_file=data_root + 'annotations/instances_val2017.json',
+    backend_args=backend_args
 )
 
 test_evaluator = val_evaluator
