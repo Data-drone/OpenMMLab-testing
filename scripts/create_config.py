@@ -126,7 +126,7 @@ test_evaluator = val_evaluator
 # We can override details with this
 mlflow_backend = dict(type='MLflowVisBackend',
                      tracking_uri='databricks',
-                     exp_name={args.experiment_name})
+                     exp_name='{args.experiment_name}')
 
 default_hooks = dict(
     logger=dict(type='LoggerHook',
