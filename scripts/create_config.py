@@ -27,10 +27,10 @@ _base_ = './rtmdet_tiny_8xb32-300e_coco.py'
 experiment_name = '{args.experiment_name}'
 data_root = '{args.data_root}'
 
-backend_args = None
+backend_args = {'backend': 'disk'}
 
 train_pipeline = [
-    dict(type='LoadImageFromFile', backend_args={{_base_.backend_args}}),
+    dict(type='LoadImageFromFile', backend_args=backend_args),
     dict(type='LoadAnnotations', with_bbox=True),
     dict(
         type='CachedMosaic',
