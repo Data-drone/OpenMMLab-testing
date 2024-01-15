@@ -61,6 +61,17 @@ train_pipeline = [
     dict(type='PackDetInputs')
 ]
 
+test_pipeline = [
+    dict(type='LoadImageFromFile', backend_args=backend_args),
+    dict(type='Resize', scale=(640, 640), keep_ratio=True),
+    dict(type='Pad', size=(640, 640), pad_val=dict(img=(114, 114, 114))),
+    dict(type='LoadAnnotations', with_bbox=True),
+    dict(
+        type='PackDetInputs',
+        meta_keys=('img_id', 'img_path', 'ori_shape', 'img_shape',
+                   'scale_factor'))
+]
+
 train_dataloader = dict(
     dataset=dict(
         pipeline=train_pipeline,
@@ -74,6 +85,8 @@ val_dataloader = dict(
         backend_args=backend_args
     )
 )
+
+test_dataloader = val_dataloader
 
 train_pipeline_stage2 = [
     dict(type='LoadImageFromFile', backend_args=backend_args),
@@ -103,28 +116,6 @@ custom_hooks = [
         switch_pipeline=train_pipeline_stage2)
 ]
 
-test_pipeline = [
-    dict(type='LoadImageFromFile', backend_args=backend_args),
-    dict(type='Resize', scale=(640, 640), keep_ratio=True),
-    dict(type='Pad', size=(640, 640), pad_val=dict(img=(114, 114, 114))),
-    dict(type='LoadAnnotations', with_bbox=True),
-    dict(
-        type='PackDetInputs',
-        meta_keys=('img_id', 'img_path', 'ori_shape', 'img_shape',
-                   'scale_factor'))
-]
-
-train_dataloader = dict(
-    dataset=dict(
-        data_root=data_root,
-        pipeline=train_pipeline,
-        backend_args=backend_args))
-val_dataloader = dict(
-    dataset=dict(
-        data_root=data_root,
-        pipeline=test_pipeline,
-        backend_args=backend_args))
-test_dataloader = val_dataloader
 
 train_cfg = dict(
     max_epochs=3, 
