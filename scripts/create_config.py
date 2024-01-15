@@ -28,6 +28,7 @@ experiment_name = '{args.experiment_name}'
 data_root = '{args.data_root}'
 
 backend_args = dict(
+    _delete_= True,
     backend='petrel',
     path_mapping=dict(
         {{'{args.data_root}': '{args.data_bucket}'}}
