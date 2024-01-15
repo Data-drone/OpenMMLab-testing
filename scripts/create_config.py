@@ -7,6 +7,9 @@ def parse_args():
     parser.add_argument('--data-root', help='root dir for data')
     parser.add_argument('--config-path', help='root of the folder to put the config in')
 
+    args = parser.parse_args()
+    return args
+
 def main():
 
     args = parse_args()
