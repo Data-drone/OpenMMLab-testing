@@ -27,13 +27,16 @@ _base_ = './rtmdet_tiny_8xb32-300e_coco.py'
 experiment_name = '{args.experiment_name}'
 data_root = '{args.data_root}'
 
-backend_args = dict(
-    _delete_= True,
-    backend='petrel',
-    path_mapping=dict(
-        {{'{args.data_root}': '{args.data_bucket}'}}
-    )
-)
+backend_args = None
+
+# is this just for older things?
+# backend_args = dict(
+#     _delete_= True,
+#     backend='petrel',
+#     path_mapping=dict(
+#         {{'{args.data_root}': '{args.data_bucket}'}}
+#     )
+# )
 
 train_pipeline = [
     dict(type='LoadImageFromFile', backend_args=backend_args),
