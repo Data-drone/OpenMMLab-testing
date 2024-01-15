@@ -18,8 +18,8 @@ def main():
 
 _base_ = './rtmdet_tiny_8xb32-300e_coco.py'
 
-experiment_name = {args.experiment_name}
-data_root = {args.data_root}
+experiment_name = '{args.experiment_name}'
+data_root = '{args.data_root}'
 
 train_cfg = dict(
     max_epochs=3, 
