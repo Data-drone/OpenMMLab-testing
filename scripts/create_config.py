@@ -27,7 +27,10 @@ _base_ = './rtmdet_tiny_8xb32-300e_coco.py'
 experiment_name = '{args.experiment_name}'
 data_root = '{args.data_root}'
 
-backend_args = {{'backend': 'disk'}}
+backend_args = dict(
+    _delete_ = True,
+    backend='disk'
+)
 
 train_pipeline = [
     dict(type='LoadImageFromFile', backend_args=backend_args),
