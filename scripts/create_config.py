@@ -61,7 +61,19 @@ train_pipeline = [
     dict(type='PackDetInputs')
 ]
 
-train_dataloader = dict(dataset=dict(pipeline=train_pipeline))
+train_dataloader = dict(
+    dataset=dict(
+        pipeline=train_pipeline,
+        backend_args=backend_args
+    )
+)
+
+val_dataloader = dict(
+    dataset=dict(
+        pipeline=test_pipeline,
+        backend_args=backend_args
+    )
+)
 
 train_pipeline_stage2 = [
     dict(type='LoadImageFromFile', backend_args=backend_args),
