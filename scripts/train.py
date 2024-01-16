@@ -9,6 +9,7 @@ from mmengine.runner import Runner
 
 # hacking backends
 from mmengine.fileio.backends import register_backend, PetrelBackend, LocalBackend
+from utils.aws_s3_backend import s3Backend
 
 from mmdet.utils import setup_cache_size_limit_of_dynamo
 import logging
@@ -95,9 +96,10 @@ def main():
     # training speed.
     setup_cache_size_limit_of_dynamo()
 
-    # hack to stop petrel_backend
+    # hack to stop petrel_backend - finally working
     register_backend('petrel', PetrelBackend, prefixes=['petrel'], force=True)
-    register_backend('local', LocalBackend, prefixes=['s3'], force=True)
+    #register_backend('local', LocalBackend, prefixes=['s3'], force=True)
+    register_backend('awsS3', s3Backend, prefixes=['s3'])
 
     # load config
     cfg = Config.fromfile(args.config)
