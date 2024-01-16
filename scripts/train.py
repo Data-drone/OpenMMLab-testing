@@ -30,7 +30,7 @@ from pathlib import Path
 from typing import Generator, Iterator, Optional, Tuple, Union
 
 import mmengine
-from mmengine.fileio.base import BaseStorageBackend
+from mmengine.fileio import BaseStorageBackend
 from smart_open import open
 
 class s3Backend(BaseStorageBackend):
