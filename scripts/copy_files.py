@@ -13,7 +13,7 @@ def download_file(s3_client, bucket_name, s3_file, local_file):
     :param local_file: Local file path to save the file.
     """
     s3_client.download_file(bucket_name, s3_file, local_file)
-    print(f"Downloaded {s3_file} to {local_file}")
+    #print(f"Downloaded {s3_file} to {local_file}")
 
 def download_directory_from_s3(bucket_name, s3_folder, local_dir, max_threads=10):
     """
@@ -31,6 +31,7 @@ def download_directory_from_s3(bucket_name, s3_folder, local_dir, max_threads=10
     threads = []
 
     for page in paginator.paginate(Bucket=bucket_name, Prefix=s3_folder):
+        print(f"Started downloading: {page} to {local_dir}")
         for item in page.get('Contents', []):
             file_key = item['Key']
             if file_key.endswith('/'):
@@ -75,7 +76,7 @@ if __name__ == '__main__':
     test = 'openmmlab/data/coco/test2017'
     test_local_dir = '/tmp/data/test2017'
 
-    download_directory_from_s3(bucket_name, annotations, annotations_local_dir, max_threads=100)
-    download_directory_from_s3(bucket_name, train, train_local_dir, max_threads=100)
-    download_directory_from_s3(bucket_name, val, val_local_dir, max_threads=100)
-    download_directory_from_s3(bucket_name, test, test_local_dir, max_threads=100)
+    download_directory_from_s3(bucket_name, annotations, annotations_local_dir, max_threads=200)
+    download_directory_from_s3(bucket_name, train, train_local_dir, max_threads=200)
+    download_directory_from_s3(bucket_name, val, val_local_dir, max_threads=200)
+    download_directory_from_s3(bucket_name, test, test_local_dir, max_threads=200)
