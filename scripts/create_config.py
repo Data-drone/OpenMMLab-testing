@@ -29,7 +29,7 @@ data_root = '{args.data_root}'
 
 backend_args = dict(
     _delete_ = True,
-    backend='ceph'
+    backend='local'
 )
 
 train_pipeline = [
@@ -74,6 +74,7 @@ test_pipeline = [
 
 train_dataloader = dict(
     dataset=dict(
+        data_root=data_root,
         pipeline=train_pipeline,
         backend_args=backend_args
     )
@@ -81,12 +82,27 @@ train_dataloader = dict(
 
 val_dataloader = dict(
     dataset=dict(
+        data_root=data_root,
         pipeline=test_pipeline,
         backend_args=backend_args
     )
 )
 
-test_dataloader = val_dataloader
+test_dataloader = dict(
+    dataset=dict(
+        data_root=data_root,
+        pipeline=test_pipeline,
+        backend_args=backend_args
+    )
+)
+
+# test_dataloader = dict(
+#     dataset=dict(
+#         data_root=data_root,
+#         pipeline=test_pipeline,
+#         backend_args=backend_args
+#     )
+# )
 
 train_pipeline_stage2 = [
     dict(type='LoadImageFromFile', backend_args=backend_args),
