@@ -98,7 +98,7 @@ def main():
     # hack to stop petrel_backend - finally working
     register_backend('petrel', PetrelBackend, prefixes=['petrel'], force=True)
     #register_backend('local', LocalBackend, prefixes=['s3'], force=True)
-    register_backend('awsS3', s3Backend, prefixes=['s3'], force=True)
+    #register_backend('awsS3', s3Backend, prefixes=['s3'], force=True)
 
     # load config
     cfg = Config.fromfile(args.config)
