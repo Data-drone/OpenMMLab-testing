@@ -96,7 +96,7 @@ def main():
     setup_cache_size_limit_of_dynamo()
 
     # hack to stop petrel_backend
-    register_backend('petrel', PetrelBackend, prefixes=['petrel'])
+    register_backend('petrel', PetrelBackend, prefixes=['petrel'], force=True)
 
     # load config
     cfg = Config.fromfile(args.config)
