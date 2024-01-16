@@ -7,6 +7,9 @@ from mmengine.config import Config, DictAction, ConfigDict
 from mmengine.registry import RUNNERS
 from mmengine.runner import Runner
 
+# hacking backends
+from mmengine.fileio.backends import register_backend, PetrelBackend
+
 from mmdet.utils import setup_cache_size_limit_of_dynamo
 import logging
 
@@ -91,6 +94,9 @@ def main():
     # Reduce the number of repeated compilations and improve
     # training speed.
     setup_cache_size_limit_of_dynamo()
+
+    # hack to stop petrel_backend
+    register_backend('petrel', PetrelBackend, prefixes=['petrel'])
 
     # load config
     cfg = Config.fromfile(args.config)
