@@ -8,7 +8,7 @@ from mmengine.registry import RUNNERS
 from mmengine.runner import Runner
 
 # hacking backends
-from mmengine.fileio.backends import register_backend, PetrelBackend
+from mmengine.fileio.backends import register_backend, PetrelBackend, LocalBackend
 
 from mmdet.utils import setup_cache_size_limit_of_dynamo
 import logging
@@ -97,6 +97,7 @@ def main():
 
     # hack to stop petrel_backend
     register_backend('petrel', PetrelBackend, prefixes=['petrel'], force=True)
+    register_backend('local', LocalBackend, prefixes=['s3'], force=True)
 
     # load config
     cfg = Config.fromfile(args.config)
