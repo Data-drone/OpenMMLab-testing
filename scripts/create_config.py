@@ -29,7 +29,7 @@ data_root = '{args.data_root}'
 
 backend_args = dict(
     _delete_ = True,
-    backend='local'
+    backend='awsS3'
 )
 
 train_pipeline = [
