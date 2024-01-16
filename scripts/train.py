@@ -9,7 +9,7 @@ from mmengine.runner import Runner
 
 # hacking backends
 from mmengine.fileio.backends import register_backend, PetrelBackend, LocalBackend
-from openmmlab.utils.aws_s3_backend import s3Backend
+from .aws_s3_backend import s3Backend
 
 from mmdet.utils import setup_cache_size_limit_of_dynamo
 import logging
