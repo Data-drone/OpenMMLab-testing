@@ -49,7 +49,7 @@ target_name = "openmmlab - single"
 node_type = 'Standard_NC12s_v3'
 
 # AWS - TODO
-# node_type =
+# node_type = 'g4dn.4xlarge'
 
 # get current working directory in order to locate init script
 full_dir = os.getcwd()
