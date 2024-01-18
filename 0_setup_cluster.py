@@ -23,6 +23,8 @@ browser_host = dbutils.notebook.entry_point.getDbutils().notebook().getContext()
 db_host = f"https://{browser_host}"
 db_token = dbutils.notebook.entry_point.getDbutils().notebook().getContext().apiToken().get()
 
+username = spark.sql("SELECT current_user()").first()['current_user()']
+
 w = WorkspaceClient(
   host  = db_host,
   token = db_token
@@ -43,13 +45,15 @@ def find_clusters_by_name(cluster_list, target_name):
 
 # COMMAND ----------
 
+from databricks.sdk.service.compute import AwsAttributes
+
 target_name = "openmmlab - single"
 
 # Azure
-node_type = 'Standard_NC12s_v3'
+#node_type = 'Standard_NC12s_v3'
 
-# AWS - TODO
-# node_type = 'g4dn.4xlarge'
+# AWS
+node_type = 'g4dn.4xlarge'
 
 # get current working directory in order to locate init script
 full_dir = os.getcwd()
@@ -65,8 +69,13 @@ if len(matching_clusters) == 0:
     cluster_name             = target_name,
     spark_version            = '14.2.x-gpu-ml-scala2.12',
     node_type_id             = node_type,
+    aws_attributes           = AwsAttributes.from_dict(
+        {'first_on_demand': 1}
+    ),
     autotermination_minutes = 66,
     num_workers              = 0,
+    single_user_name         = username,
+    data_security_mode       = 'SINGLE_USER', 
     spark_conf               = {
             "spark.master": "local[*, 4]",
             "spark.databricks.cluster.profile": "singleNode"
@@ -117,9 +126,14 @@ if len(matching_clusters) == 0:
     cluster_name             = target_name,
     spark_version            = '14.2.x-gpu-ml-scala2.12',
     node_type_id             = worker_type,
+    aws_attributes           = AwsAttributes.from_dict(
+        {'first_on_demand': 1}
+    ),
     driver_node_type_id      = driver_type,
     autotermination_minutes = 66,
     num_workers              = 2,
+    single_user_name         = username,
+    data_security_mode       = 'SINGLE_USER', 
     init_scripts = [
          InitScriptInfo().from_dict(
             {
