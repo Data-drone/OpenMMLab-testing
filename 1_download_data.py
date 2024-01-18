@@ -12,6 +12,9 @@ username = spark.sql("SELECT current_user()").first()['current_user()']
 data_path = f'/Users/{username}/openmmlab/data/coco'
 dbutils.fs.mkdirs(data_path)
 
+# setting env var for %sh command
+os.environ['MMLAB_DATA_DIR'] = data_path
+
 # COMMAND ----------
 
 # DBTITLE 1, Download Dataset
