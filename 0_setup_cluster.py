@@ -46,6 +46,7 @@ def find_clusters_by_name(cluster_list, target_name):
 # COMMAND ----------
 
 from databricks.sdk.service.compute import AwsAttributes
+from databricks.sdk.service.compute import Library, PythonPyPiLibrary
 
 target_name = "openmmlab - single"
 
@@ -92,6 +93,14 @@ if len(matching_clusters) == 0:
 
     print(f"The cluster is now ready at " \
         f"{w.config.host}#setting/clusters/{c.cluster_id}/configuration\n")
+    
+    print("installing Libraries")
+
+    # Install Libraries
+
+    system_metrics = Library().from_dict({'pypi': {'package': 'pynvml'}})
+
+    w.libraries.install(c.cluster_id, [system_metrics])
     
 
 elif len(matching_clusters) == 1:
