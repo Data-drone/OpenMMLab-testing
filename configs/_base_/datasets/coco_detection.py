@@ -17,7 +17,7 @@ data_root = 'data/coco/'
 #         './data/': 's3://openmmlab/datasets/detection/',
 #         'data/': 's3://openmmlab/datasets/detection/'
 #     }))
-backend_args = None
+backend_args = dict(backend='local')
 
 train_pipeline = [
     dict(type='LoadImageFromFile', backend_args=backend_args),

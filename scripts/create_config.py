@@ -28,7 +28,6 @@ experiment_name = '{args.experiment_name}'
 data_root = '{args.data_root}'
 
 backend_args = dict(
-    _delete_ = True,
     backend='awsS3'
 )
 
@@ -73,6 +72,9 @@ test_pipeline = [
 ]
 
 train_dataloader = dict(
+    batch_size = 5,
+    num_workers = 4,
+    persistent_workers=True,
     dataset=dict(
         data_root=data_root,
         pipeline=train_pipeline,
@@ -81,6 +83,9 @@ train_dataloader = dict(
 )
 
 val_dataloader = dict(
+    batch_size = 5,
+    num_workers = 4,
+    persistent_workers=True,
     dataset=dict(
         data_root=data_root,
         pipeline=test_pipeline,
@@ -89,20 +94,15 @@ val_dataloader = dict(
 )
 
 test_dataloader = dict(
+    batch_size = 5,
+    num_workers = 4,
+    persistent_workers=True,
     dataset=dict(
         data_root=data_root,
         pipeline=test_pipeline,
         backend_args=backend_args
     )
 )
-
-# test_dataloader = dict(
-#     dataset=dict(
-#         data_root=data_root,
-#         pipeline=test_pipeline,
-#         backend_args=backend_args
-#     )
-# )
 
 train_pipeline_stage2 = [
     dict(type='LoadImageFromFile', backend_args=backend_args),
