@@ -19,6 +19,52 @@ dbutils.fs.mkdirs(data_path)
 browser_host = dbutils.notebook.entry_point.getDbutils().notebook().getContext().browserHostName().get()
 db_host = f"https://{browser_host}"
 db_token = dbutils.notebook.entry_point.getDbutils().notebook().getContext().apiToken().get()
+
+config_file_path = './configs/rtmdet/rtmdet_databricks_coco.py'
+
+# COMMAND ----------
+
+# DBTITLE 1, Build Configuration
+databricks_cfg = f"""
+
+_base_ = './rtmdet_tiny_8xb32-300e_coco.py'
+
+experiment_name = '/Users/{username}/openmmdet'
+data_root = '/dbfs{data_path}/'
+
+train_cfg = dict(
+    max_epochs=3, 
+    type='EpochBasedTrainLoop', 
+    val_interval=1)
+
+# I think I can overrule this from the launch command?
+# data_root = 'data/coco'
+
+val_evaluator = dict(
+    collect_device='gpu'
+)
+
+# We can override details with this
+mlflow_backend = dict(type='MLflowVisBackend',
+                     tracking_uri='databricks',
+                     exp_name=experiment_name)
+
+default_hooks = dict(
+    logger=dict(type='LoggerHook',
+                backend_args=mlflow_backend, 
+                interval=50))
+
+vis_backends = [dict(type='LocalVisBackend'),
+                mlflow_backend]
+
+visualizer = dict(
+    type='DetLocalVisualizer', vis_backends=vis_backends, name='visualizer')
+
+"""
+
+with open(config_file_path, 'w') as f:
+    f.write(databricks_cfg)
+
 # COMMAND ----------
 
 # MAGIC %md
@@ -28,7 +74,7 @@ db_token = dbutils.notebook.entry_point.getDbutils().notebook().getContext().api
 
 from mmengine.config import Config
 
-cfg = Config.fromfile('./configs/rtmdet/rtmdet_databricks_coco.py')
+cfg = Config.fromfile(config_file_path)
 print(cfg)
 
 # COMMAND ----------
@@ -82,44 +128,7 @@ def train_loop(config:str='./configs/rtmdet/rtmdet_tiny_8xb32-300e_coco.py',
 
   runner.train()
 
-# COMMAND ----------
-  
-databricks_cfg = f"""
 
-_base_ = './rtmdet_tiny_8xb32-300e_coco.py'
-
-experiment_name = '/Users/{username}/openmmdet'
-data_root = '/dbfs{data_path}/'
-
-train_cfg = dict(
-    max_epochs=3, 
-    type='EpochBasedTrainLoop', 
-    val_interval=1)
-
-# I think I can overrule this from the launch command?
-# data_root = 'data/coco'
-
-# We can override details with this
-mlflow_backend = dict(type='MLflowVisBackend',
-                     tracking_uri='databricks',
-                     exp_name=experiment_name)
-
-default_hooks = dict(
-    logger=dict(type='LoggerHook',
-                backend_args=mlflow_backend, 
-                interval=50))
-
-vis_backends = [dict(type='LocalVisBackend'),
-                mlflow_backend]
-
-visualizer = dict(
-    type='DetLocalVisualizer', vis_backends=vis_backends, name='visualizer')
-
-"""
-
-config=f'./configs/rtmdet/rtmdet_databricks_coco.py'
-with open(config, 'w') as f:
-    f.write(databricks_cfg)
 
 # COMMAND ----------
 

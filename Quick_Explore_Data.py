@@ -72,7 +72,7 @@ spark_images_df.write.saveAsTable('computer_vision.coco_dataset.image_list')
 
 # COMMAND ----------
 
-from PIL import Image
+from PIL import Image, ImageDraw
 
 image_id = '458705'
 image_file = f"{root_dir}/train2017/000000{image_id}.jpg"
@@ -93,7 +93,7 @@ display(
 
 bboxes = spark.sql(f"""SELECT bbox FROM computer_vision.coco_dataset.bbox_annotations 
            WHERE image_id == {image_id}""").toPandas()
-bboxes
+#bboxes
 
 # COMMAND ----------
 

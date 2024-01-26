@@ -42,6 +42,10 @@ train_cfg = dict(
 # I think I can overrule this from the launch command?
 # data_root = 'data/coco'
 
+val_evaluator = dict(
+    collect_device='gpu'
+)
+
 # We can override details with this
 mlflow_backend = dict(type='MLflowVisBackend',
                      tracking_uri='databricks',
