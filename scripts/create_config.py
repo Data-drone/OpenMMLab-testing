@@ -6,6 +6,7 @@ def parse_args():
     parser.add_argument('--experiment-name', help='mlflow_experiment_name')
     parser.add_argument('--data-bucket', help='s3 bucket for dataset')
     parser.add_argument('--data-root', help='root dir for data')
+    parser.add_argument('--mlflow-host', help='path to mlflow server')
     parser.add_argument('--config-path', help='root of the folder to put the config in')
 
     args = parser.parse_args()
@@ -148,7 +149,7 @@ test_evaluator = val_evaluator
 
 # We can override details with this
 mlflow_backend = dict(type='MLflowVisBackend',
-                     tracking_uri='databricks',
+                     tracking_uri='{args.mlflow_host}',
                      exp_name='{args.experiment_name}')
 
 default_hooks = dict(
