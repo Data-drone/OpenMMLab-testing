@@ -77,6 +77,6 @@ if __name__ == '__main__':
     test_local_dir = '/tmp/data/test2017'
 
     download_directory_from_s3(bucket_name, annotations, annotations_local_dir, max_threads=200)
-    download_directory_from_s3(bucket_name, train, train_local_dir, max_threads=200)
-    download_directory_from_s3(bucket_name, val, val_local_dir, max_threads=200)
-    download_directory_from_s3(bucket_name, test, test_local_dir, max_threads=200)
+    #download_directory_from_s3(bucket_name, train, train_local_dir, max_threads=200)
+    #download_directory_from_s3(bucket_name, val, val_local_dir, max_threads=200)
+    #download_directory_from_s3(bucket_name, test, test_local_dir, max_threads=200)
